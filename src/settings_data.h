@@ -165,6 +165,7 @@ static const struct rule empty_rule = {
         .progress_bar_alignment   = -1,
         .min_icon_size   = -1,
         .max_icon_size   = -1,
+        .origin          = NULL,
 };
 
 
@@ -759,6 +760,17 @@ static const struct setting allowed_settings[] = {
                 .parser = NULL,
                 .parser_data = NULL,
                 .rule_offset = offsetof(struct rule, max_icon_size),
+        },
+        {
+                .name = "origin",
+                .section = "*",
+                .description = "The origin of the notification. This is used to position the notification on the screen. The origin is specified as a string with the format \"<vertical>-<horizontal>\". The vertical and horizontal parts can be one of \"top\", \"bottom\", \"left\", \"right\", or \"center\". The default value is \"top-right\".",
+                .type = TYPE_STRING,
+                .default_value = "*",
+                .value = NULL,
+                .parser = NULL,
+                .parser_data = NULL,
+                .rule_offset = offsetof(struct rule, origin),
         },
         // end of modifying rules
 

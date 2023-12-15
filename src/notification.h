@@ -105,11 +105,13 @@ struct notification {
         PangoEllipsizeMode ellipsize;
         PangoAlignment alignment;
         bool hide_text;
+        char *origin;
 
         /* derived fields */
         char *msg;            /**< formatted message */
         char *text_to_render; /**< formatted message (with age and action indicators) */
         char *urls;           /**< urllist delimited by '\\n' */
+
 };
 
 /**

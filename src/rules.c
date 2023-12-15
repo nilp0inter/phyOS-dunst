@@ -99,6 +99,10 @@ void rule_apply(struct rule *r, struct notification *n)
                 g_free(n->stack_tag);
                 n->stack_tag = g_strdup(r->set_stack_tag);
         }
+        if (r->origin) {
+                g_free(n->origin);
+                n->origin = g_strdup(r->origin);
+        }
 }
 
 /*

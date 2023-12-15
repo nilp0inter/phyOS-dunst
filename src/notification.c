@@ -303,6 +303,8 @@ void notification_unref(struct notification *n)
                 g_free(n->scripts);
         }
 
+        g_free(n->origin);
+
         g_free(n);
 }
 
@@ -449,6 +451,7 @@ void notification_init(struct notification *n)
         n->summary  = n->summary  ? n->summary  : g_strdup("");
         n->body     = n->body     ? n->body     : g_strdup("");
         n->category = n->category ? n->category : g_strdup("");
+        n->origin   = n->origin   ? n->origin   : g_strdup("");
 
         /* sanitize urgency */
         if (n->urgency < URG_MIN)
@@ -488,8 +491,26 @@ void notification_init(struct notification *n)
         if (n->progress < 0)
                 n->progress = -1;
 
+
         /* Process rules */
         rule_apply_all(n);
+
+        if (!strcmp(n->origin, "top-center"))
+                settings.origin = ORIGIN_TOP_CENTER;
+        else if (!strcmp(n->origin, "top-left"))
+                settings.origin = ORIGIN_TOP_LEFT;
+        else if (!strcmp(n->origin, "bottom-right"))
+                settings.origin = ORIGIN_BOTTOM_RIGHT;
+        else if (!strcmp(n->origin, "bottom-center"))
+                settings.origin = ORIGIN_BOTTOM_CENTER;
+        else if (!strcmp(n->origin, "bottom-left"))
+                settings.origin = ORIGIN_BOTTOM_LEFT;
+        else if (!strcmp(n->origin, "left-center"))
+                settings.origin = ORIGIN_LEFT_CENTER;
+        else if (!strcmp(n->origin, "center"))
+                settings.origin = ORIGIN_CENTER;
+        else
+                settings.origin = ORIGIN_TOP_RIGHT;
 
         if (g_str_has_prefix(n->summary, "DUNST_COMMAND_")) {
                 char *msg = "DUNST_COMMAND_* has been removed, please switch to dunstctl. See #830 for more details. https://github.com/dunst-project/dunst/pull/830";
